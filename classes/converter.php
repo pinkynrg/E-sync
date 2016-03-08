@@ -137,7 +137,7 @@
 			$new_path = false;
 			if ($path) {
 				try {
-					require_once 'PHPExcel/Classes/PHPExcel/IOFactory.php';
+					require_once 'vendor/phpoffice/phpexcel/Classes/PHPExcel/IOFactory.php';
 
 					$file_name = helper::getFileNameFromPath($path);
 					$extension = helper::getFileExtensionFromFileName($file_name);
