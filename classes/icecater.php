@@ -138,9 +138,10 @@
 		private function debugBlock() 
 		{
 			helper::writeLine("Debug Mode",helper::SYSTEM_ALERT);
-			// insert here an output
-			$xml = file_get_contents("http://newlinexml:testxml@data.icecat.biz/xml_s3/xml_server3.cgi?prod_id=9S7-175912-255;vendor=MSI;lang=it;output=productxml");
-			echo ($xml);
+
+			// $xml = file_get_contents("http://newlinexml:testxml@data.icecat.biz/xml_s3/xml_server3.cgi?prod_id=9S7-175912-255;vendor=MSI;lang=it;output=productxml");
+			// echo ($xml);
+			
 			die();
 		}
 	}

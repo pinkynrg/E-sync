@@ -973,9 +973,10 @@
 		private function debugBlock() 
 		{
 			helper::writeLine("Debug Mode",helper::SYSTEM_ALERT);
-			// insert here an output
-			$columns = self::getColumnNamesCSV(1,DOWNLOADS.DS."listini.txt", ";","\"",2);
-			self::getColumnTypesCSV(DOWNLOADS.DS."listini.txt", 2, $columns, ";","\"");
+
+			// $columns = self::getColumnNamesCSV(1,DOWNLOADS.DS."listini.txt", ";","\"",2);
+			// self::getColumnTypesCSV(DOWNLOADS.DS."listini.txt", 2, $columns, ";","\"");
+			
 			die();
 		}
 	}
