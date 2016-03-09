@@ -68,7 +68,7 @@
 		* @param 	Temp 		$is_temp 	if true saves the file in temps folder, otherwise saves in downloads folder
 		* @return 	LocalPath 	$local_path the path of the downloaded file, false if something went wrong
 		*/
-		public function downloadFile($resource, $is_temp = false) 
+		public static function downloadFile($resource, $is_temp = false) 
 		{
 			$retries = 0;
 
