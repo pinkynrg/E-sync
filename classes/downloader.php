@@ -96,7 +96,7 @@
 		* @param 	Temp 		$is_temp 	if true saves the file in temps folder, otherwise saves in downloads folder
 		* @return 	LocalPath 	$local_path the path of the downloaded file, false if something went wrong
 		*/
-		private function ftp($resource, $is_temp) 
+		private static function ftp($resource, $is_temp) 
 		{
 			$success = false;
 			$ftp_handle = ftp_connect($resource['host']);
@@ -121,36 +121,17 @@
 		* @param 	Temp 		$is_temp 	if true saves the file in temps folder, otherwise saves in downloads folder
 		* @return 	LocalPath 	$local_path the path of the downloaded file, false if something went wrong
 		*/
-		private function http($resource, $is_temp) 
+		private static function http($resource, $is_temp) 
 		{
 			$success = false;
 
-			// if ($resource["local_name"] == "focelda_listino") {
+			$content = file_get_contents("http://".$resource['username'].":".$resource['password']."@".$resource['host'].DS.$resource['path']);
 
-			// 	$ch = curl_init();
-			// 	$source = "http://www.focelda.info/csv/index.php/041177/041177.html";
-			// 	curl_setopt($ch, CURLOPT_URL, $source);
-			// 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			// 	$data = curl_exec ($ch);
-			// 	curl_close ($ch);
-
-			// 	$file_name = "041177.csv";
-			// 	$local_path = "/opt/e_sync/downloads/041177.csv";
-			// 	$file = fopen($local_path, "w+");
-			// 	$success = fputs($file, $data);
-			// 	fclose($file);
-
-			// } else {
-
-				$content = file_get_contents("http://".$resource['username'].":".$resource['password']."@".$resource['host'].DS.$resource['path']);
-
-				if ($content) {
-					$file_name = helper::getFileNameFromPath($resource['path']);
-					$local_path = $is_temp ? TEMPS.DS.$file_name : DOWNLOADS.DS.$file_name;
-					$success = file_put_contents($local_path,$content);
-				}
-			// }
-
+			if ($content) {
+				$file_name = helper::getFileNameFromPath($resource['path']);
+				$local_path = $is_temp ? TEMPS.DS.$file_name : DOWNLOADS.DS.$file_name;
+				$success = file_put_contents($local_path,$content);
+			}
 
 			return $success ? $local_path : false;
 		}
@@ -162,7 +143,7 @@
 		* @param 	Temp 		$is_temp 	if true saves the file in temps folder, otherwise saves in downloads folder
 		* @return 	LocalPath 	$local_path the path of the downloaded file, false if something went wrong
 		*/
-		private function local($resource, $is_temp) 
+		private static function local($resource, $is_temp) 
 		{
 			$success = false;
 			$content = file_get_contents($resource['path']);
