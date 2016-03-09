@@ -28,7 +28,7 @@
 				// for auto import
 				if ($resource_name == "auto") {
 					$current_time = date("H:i");
-					$resources = helper::getResources();
+					$resources = helper::getResources($this->db);
 					foreach ($resources as $resource) {
 						if (self::hasToBeImported($resource,$current_time)) {
 							helper::writeLine("The resource ".$resource['local_name']." started importing",helper::SYSTEM_ALERT,helper::LIVE_AFTER_MSG,helper::LOG_MSG);
@@ -44,7 +44,7 @@
 				}
 				// to force import all resources
 				elseif ($resource_name == "all") {
-					$resources = helper::getResources();
+					$resources = helper::getResources($this->db);
 					foreach ($resources as $resource) {
 						helper::writeLine("The resource ".$resource['local_name']." started importing",helper::SYSTEM_ALERT,helper::LIVE_AFTER_MSG,helper::LOG_MSG);
 						$result = self::importResource($resource);
@@ -58,7 +58,7 @@
 				}
 				// to import one resource
 				else {
-					$resources = helper::getResources($resource_name);
+					$resources = helper::getResources($this->db,$resource_name);
 					if (!empty($resources)) {
 						foreach ($resources as $resource) {
 							helper::writeLine("The resource ".$resource['local_name']." started importing",helper::SYSTEM_ALERT,helper::LIVE_AFTER_MSG,helper::LOG_MSG);
@@ -131,7 +131,7 @@
 			$query_str = "CREATE TABLE `".$resource['local_name']."` (";
 			
 			for ($i=0; $i < count($columns['name']); $i++) {
-				$column_type = helper::getRecordById('system_valid_column_types',$columns['type'][$i]);
+				$column_type = helper::getRecordById($this->db,'system_valid_column_types',$columns['type'][$i]);
 				$query_str .= "`".$columns['name'][$i]."` ".$column_type['dimension'];
 				$query_str .= in_array($columns['name'][$i], $indices) ? " NOT NULL" : "";
 				$query_str .= ",";
@@ -179,7 +179,7 @@
 				helper::writeLine("Ended CSV to ARRAY conversion for ".$resource['local_name'],helper::SUCCESS_ALERT,helper::LIVE_AFTER_MSG);		
 
 				for($i=0; $i<count($columns['type']); $i++) {
-					$column_type_record = helper::getRecordById('system_valid_column_types',$columns['type'][$i]);
+					$column_type_record = helper::getRecordById($this->db,'system_valid_column_types',$columns['type'][$i]);
 					$column_type[$i] = $column_type_record['name'];
 				}
 

@@ -26,7 +26,7 @@
 			if (isset($this->args[0])) {
 				$resource_name = $this->args[0];
 				if ($resource_name == "all") {
-					$resources = helper::getResources();
+					$resources = helper::getResources($this->db);
 					foreach ($resources as $resource) {
 						helper::writeLine("The resource ".$resource['local_name']." started downloading",helper::SYSTEM_ALERT,helper::LIVE_AFTER_MSG,helper::LOG_MSG);
 						$result = self::downloadFile($resource);
@@ -39,7 +39,7 @@
 					}
 				}
 				else {
-					$resources = helper::getResources($resource_name);
+					$resources = helper::getResources($this->db,$resource_name);
 					if (!empty($resources)) {
 						foreach ($resources as $resource) {
 							helper::writeLine("The resource ".$resource['local_name']." started downloading",helper::SYSTEM_ALERT,helper::LIVE_AFTER_MSG,helper::LOG_MSG);

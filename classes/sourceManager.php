@@ -33,7 +33,7 @@
 
 				do {
 					$id = helper::askUser("Type in the ID of the service to use from one in the list:",helper::TYPE_INTEGER);
-					$service = helper::getRecordById("system_services",$id);
+					$service = helper::getRecordById($this->db,"system_services",$id);
 				} while (!$service);
 
 				if (strtolower($host) != "localhost" && strtolower($host) != "127.0.0.1") {
@@ -149,7 +149,7 @@
 			
 			do {
 				$resource_id = helper::askUser("What resource do you want to remove?",helper::TYPE_INTEGER);
-				$resource = helper::getRecordById("system_resources",$resource_id);
+				$resource = helper::getRecordById($this->db,"system_resources",$resource_id);
 				if (!$resource) {
 					helper::writeLine("The specified ID doens't seem to exist",helper::ERROR_ALERT,helper::LIVE_AFTER_MSG);
 				}
@@ -185,7 +185,7 @@
 			self::showList("system_resources");
 			do {
 				$resource_id = helper::askUser("Type the ID of the resource you want to set the sync of:",helper::TYPE_INTEGER);
-				$valid = helper::getRecordById("system_resources",$resource_id);
+				$valid = helper::getRecordById($this->db,"system_resources",$resource_id);
 				if (!$valid) {
 					helper::writeLine("The inserted ID doesn't seem to be correct",helper::ERROR_ALERT,helper::LIVE_AFTER_MSG);
 				}
@@ -238,7 +238,7 @@
 			
 			do {
 				$id = helper::askUser("Write the ID of the source where to add the file to download:",helper::TYPE_INTEGER);
-				$source = helper::getRecordById("system_sources",$id);
+				$source = helper::getRecordById($this->db,"system_sources",$id);
 				if ($source == false) {
 					helper::writeLine("The typed ID doesn't seem to be a valid source.",helper::ERROR_ALERT,helper::LIVE_AFTER_MSG);
 				}
@@ -254,7 +254,7 @@
 		*/
 		private function getResourcePath($source_id)
 		{
-			$source = helper::getRecordById("system_sources",$source_id);
+			$source = helper::getRecordById($this->db,"system_sources",$source_id);
 			
 			do {
 				$path = helper::askUser("Write the relative path of the file (leading /):",helper::TYPE_PATH);
@@ -289,7 +289,7 @@
 		{
 			$returned = new stdClass();
 			$conversions = array();
-			$source = helper::getRecordById("system_sources",$source_id);
+			$source = helper::getRecordById($this->db,"system_sources",$source_id);
 
 			helper::writeLine("In order to be importable, the file needs to be in a CSV format.",helper::SYSTEM_ALERT,helper::LIVE_AFTER_MSG);
 			$to_convert = helper::askUser("Does the file need to be converted?",helper::TYPE_YES_NO);
@@ -309,7 +309,7 @@
 					else 
 						$conversion_id = helper::askUser("Write the ID of the next format of the file:",helper::TYPE_STRING);
 
-					if ($conversion = helper::getRecordById("system_valid_extensions",$conversion_id)) {
+					if ($conversion = helper::getRecordById($this->db,"system_valid_extensions",$conversion_id)) {
 						$duplicated = in_array($conversion['extension'],$conversions);
 						if ($duplicated) {
 							helper::writeLine("This conversion seems to be already been picked",helper::ERROR_ALERT,helper::LIVE_AFTER_MSG);
@@ -565,7 +565,7 @@
 				helper::writeLine(helper::getSeparator());
 				do {	
 					$id_column_type = helper::askUser("Write the ID of the best matching type for the CSV sample data shown above:",helper::TYPE_INTEGER);
-					$column_type = helper::getRecordById("system_valid_column_types",$id_column_type);
+					$column_type = helper::getRecordById($this->db,"system_valid_column_types",$id_column_type);
 					if ($column_type == false) {
 						helper::writeLine("The typed ID doesn't seem to be a valid column type",helper::ERROR_ALERT,helper::LIVE_AFTER_MSG);
 					}
@@ -621,7 +621,7 @@
 		private function downloadFile($source, $path) 
 		{	
 			$resource = array();
-			$service = helper::getRecordById("system_services",$source['service_id']);
+			$service = helper::getRecordById($this->db,"system_services",$source['service_id']);
 
 			$resource['service'] = $service['service'];
 			$resource['port'] = $service['port'];
@@ -976,7 +976,7 @@
 
 			// $columns = self::getColumnNamesCSV(1,DOWNLOADS.DS."listini.txt", ";","\"",2);
 			// self::getColumnTypesCSV(DOWNLOADS.DS."listini.txt", 2, $columns, ";","\"");
-			
+
 			die();
 		}
 	}

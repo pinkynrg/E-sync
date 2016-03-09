@@ -72,12 +72,12 @@
 		* @param 	Id 			$id 		The id to be checked in the table
 		* @return	Result 		$result	 	Corrisponding record if ID exists, false otherwise
 		*/
-		public static function getRecordById($table, $id) 
+		public static function getRecordById($db, $table, $id) 
 		{
 			$result = false;
 
-			if (helper::tableExists($this->db, $table)) {
-				$query = $this->db->prepare("SELECT * FROM $table WHERE id = '$id' LIMIT 1");
+			if (helper::tableExists($db, $table)) {
+				$query = $db->prepare("SELECT * FROM $table WHERE id = '$id' LIMIT 1");
 				$query->execute();
 				$result = $query->fetch();
 			}
@@ -90,7 +90,7 @@
 		* @param 	Resource Name 	$name 		The name of the resource to load, if null returns all active resources
 		* @return 	Resources 		$resources  Array of all loaded resources
 		*/
-		public function getResources($name = null)
+		public static function getResources($db, $name = null)
 		{
 
 			$query_str = "SELECT * FROM system_resources 
@@ -100,7 +100,7 @@
 
 			if (!is_null($name)) $query_str .= " AND local_name = '".$name."'";
 
-			$query = $this->db->prepare($query_str);
+			$query = $db->prepare($query_str);
 			$query->execute();
 			$resources = $query->fetchAll();
 
