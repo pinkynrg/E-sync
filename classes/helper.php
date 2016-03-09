@@ -72,7 +72,7 @@
 		* @param 	Id 			$id 		The id to be checked in the table
 		* @return	Result 		$result	 	Corrisponding record if ID exists, false otherwise
 		*/
-		public function getRecordById($table, $id) 
+		public static function getRecordById($table, $id) 
 		{
 			$result = false;
 
